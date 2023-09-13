@@ -14,7 +14,7 @@ def calculo_tempo_descarregamento_mercadoria():
 # Gera uma ordem de carga aleatória de acordo com o exercício
 # - Por questão de acomodação no local, a fila de carga pode conter apenas 15 mercadorias por vez
 def gerar_ordem_carga():
-    max_mercadorias = 8
+    max_mercadorias = 15
     return random.sample(range(1, max_mercadorias + 1), random.randint(1, max_mercadorias))
 
 
@@ -26,6 +26,7 @@ def carga_mercadorias():
     dez_iter = 0
     minutos = 1
     hora_inicio = datetime.datetime(2023, 9, 12,20, 10)  # Hora 20:10
+    hora_atual = hora_inicio
 
 
     print("Início da carga às 20h10")
@@ -41,12 +42,13 @@ def carga_mercadorias():
             mercadorias_a_carregar = fila_carga
 
         print(f"fila atual de mercadoria {fila_carga}")
-        print(f"tamanho da fila {len(fila_carga)}")
 
         if len(fila_carga) > 0:
             for mercadoria in mercadorias_a_carregar:
                 tempo_carga = calculo_tempo_descarregamento_mercadoria()
-                print(f"{motorista} e {ajudante} carregando mercadoria {mercadoria} ({tempo_carga} min) minutos acumulados {minutos_acumulados}")
+                hora_atual = hora_inicio + datetime.timedelta(minutes=minutos_acumulados)
+                hora_formatada = hora_atual.strftime("%H:%M:%S")
+                print(f"{motorista} e {ajudante} carregando mercadoria {mercadoria} Horário Atual: {hora_atual}")
                 minutos_acumulados += 1
 
                 if minutos >= 2:
